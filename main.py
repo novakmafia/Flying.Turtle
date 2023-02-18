@@ -32,7 +32,7 @@ async def say(ctx, *, msg=None):
     if msg is not None:
         await ctx.send(msg)
     else:
-        await ctx.send("Я не умею пустоту отправлять, балбес")
+        await ctx.send("Я не умею пустоту отправлять, балбес", ephermal=True)
 
 
 @bot.command()

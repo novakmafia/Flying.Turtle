@@ -26,12 +26,12 @@ bot.remove_command('help')
 async def ку(ctx):
     await ctx.send(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png")) 
 
-@bot.command()
-async def say(ctx, message):
+@bot.command(name='say')
+async def say(ctx, msg=None):
     await ctx.message.delete()
-    if message != None:
-        await ctx.send(message)
-    elif message == None:
+    if msg is not None:
+        await ctx.send(msg)
+    else:
         await ctx.send("Я не умею пустоту отправлять, балбес")
 
 

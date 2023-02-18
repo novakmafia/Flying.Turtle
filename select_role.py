@@ -4,7 +4,7 @@ sys.path.insert(1, "C:\\Users\\posei\\OneDrive\\Документы\\BOT")
 from config import roles
 from config import custom_id
 
-VIEW_NAME = "Select"
+VIEW_NAME = "Select" 
 
 class SelectSTRP(nextcord.ui.View):
     def __init__(self):

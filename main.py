@@ -27,6 +27,15 @@ async def ку(ctx):
     await ctx.send(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png")) 
 
 @bot.command()
+async def say(ctx, message):
+    await ctx.message.delete()
+    if message != None:
+        await ctx.send(message)
+    elif message == None:
+        await ctx.send("Я не умею пустоту отправлять, балбес")
+
+
+@bot.command()
 @commands.has_permissions(administrator=True)
 async def reaction(ctx):
     embed = nextcord.Embed(

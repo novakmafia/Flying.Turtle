@@ -63,7 +63,7 @@ async def ping(interaction: nextcord.Interaction):
         icon_url = image['logo']
     )
 
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.slash_command(description='Ссылка на этот сервер')
 async def link(interaction: nextcord.Interaction):

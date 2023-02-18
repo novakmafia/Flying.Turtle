@@ -27,7 +27,7 @@ async def ку(ctx):
     await ctx.send(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png")) 
 
 @bot.command(name='say')
-async def say(ctx, msg=None):
+async def say(ctx, *, msg=None):
     await ctx.message.delete()
     if msg is not None:
         await ctx.send(msg)

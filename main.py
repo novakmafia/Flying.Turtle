@@ -88,6 +88,6 @@ async def invite(interaction: nextcord.Interaction):
     embed.set_thumbnail(
         url = image['p_logo']
     )
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 bot.run(settings['token'])

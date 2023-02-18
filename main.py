@@ -24,7 +24,7 @@ bot.remove_command('help')
 
 @bot.command()
 async def ку(ctx):
-    await ctx.send('И тебе доброе утро!')
+    await ctx.send(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png")) 
 
 @bot.command()
 @commands.has_permissions(administrator=True)

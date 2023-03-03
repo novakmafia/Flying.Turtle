@@ -27,13 +27,16 @@ async def ку(ctx):
     await ctx.send(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png")) 
 
 @bot.command(name='say')
-@commands.has_permissions(administrator=True)
 async def say(ctx, *, msg=None):
     await ctx.message.delete()
-    if msg is not None:
-        await ctx.send(msg)
+    authorperms = ctx.author.permissions_in(ctx.channel)
+    if authorperms.administrator:
+        if msg is not None:
+            await ctx.send(msg)
+        else:
+            await ctx.send("Я не умею пустоту отправлять, балбес", ephermal=True)
     else:
-        await ctx.send("Я не умею пустоту отправлять, балбес", ephermal=True)
+        await ctx.send("Лох без админки, не буду работать")
 
 
 @bot.command()

@@ -24,19 +24,27 @@ bot.remove_command('help')
 
 @bot.command()
 async def ку(ctx):
-    await ctx.send(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png")) 
+    await ctx.reply(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png"))
+
+@bot.command(pass_context=True)
+async def addrole(ctx, role: nextcord.Role, member: nextcord.Member=None):
+    if ctx.message.author.id == 788044062614749190:
+        member = member or ctx.message.author
+        print(member)
+        print(role)
+        await member.add_roles(role)
+        await ctx.reply('+')
 
 @bot.command(name='say')
 async def say(ctx, *, msg=None):
-    await ctx.message.delete()
-    authorperms = ctx.author.permissions_in(ctx.channel)
-    if authorperms.administrator:
+    if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
+        await ctx.message.delete()
         if msg is not None:
             await ctx.send(msg)
         else:
             await ctx.send("Я не умею пустоту отправлять, балбес", ephermal=True)
     else:
-        await ctx.send("Лох без админки, не буду работать")
+        await ctx.reply("без админки не работаю, вот станешь челом с админкой - буду")
 
 
 @bot.command()

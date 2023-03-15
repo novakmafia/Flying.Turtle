@@ -36,13 +36,12 @@ async def addrole(ctx, role: nextcord.Role, member: nextcord.Member=None):
 @bot.command(name='say')
 async def say(ctx, *, msg=None):
     if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
-        await ctx.message.delete()
         if msg is not None:
             await ctx.send(msg)
         else:
-            await ctx.send("Я не умею пустоту отправлять, балбес", ephermal=True)
+            await ctx.reply("[Error]: Невозможно отправить пустоту!")
     else:
-        await ctx.reply("без админки не работаю, вот станешь челом с админкой - буду")
+        await ctx.reply("[Error]: У Вас отсутствует уровень администратор для выполнения данного действия.")
 
 
 @bot.command()

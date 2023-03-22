@@ -22,6 +22,19 @@ class StartBot(commands.Bot):
 bot = StartBot()
 bot.remove_command('help')
 
+@bot.event
+async def on_message(message):
+    if message.channel.name == "「📢」новости":
+        channel = bot.get_channel(int("959930633939984434"))
+        thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=4320, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
+        await thread.send("Обратите внимание, что в данной ветке действуют такие же правила, как и на обычные каналы!")
+    elif message.channel.name == "「📻」мастерская":
+        channel = bot.get_channel(int("906633755874189322"))
+        thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=4320, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
+        await thread.send("Обратите внимание, что в данной ветке действуют такие же правила, как и на обычные каналы!")
+    else:
+        await bot.process_commands(message)
+
 @bot.command()
 async def ку(ctx):
     await ctx.reply(file=nextcord.File(r"C:\Users\posei\OneDrive\Документы\BOT\1676705615678.png"))
@@ -37,11 +50,12 @@ async def addrole(ctx, role: nextcord.Role, member: nextcord.Member=None):
 async def say(ctx, *, msg=None):
     if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
         if msg is not None:
+            await ctx.message.delete()
             await ctx.send(msg)
         else:
             await ctx.reply("[Error]: Невозможно отправить пустоту!")
     else:
-        await ctx.reply("[Error]: У Вас отсутствует уровень администратор для выполнения данного действия.")
+        await ctx.reply("[Error]: У Вас отсутствует доступ администратор Discord сервера для выполнения данного действия.")
 
 
 @bot.command()

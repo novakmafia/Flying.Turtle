@@ -26,11 +26,11 @@ bot.remove_command('help')
 async def on_message(message):
     if message.channel.name == "「📢」новости":
         channel = bot.get_channel(int("959930633939984434"))
-        thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=4320, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
+        thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=1440, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
         await thread.send("Обратите внимание, что в данной ветке действуют такие же правила, как и на обычные каналы!")
     elif message.channel.name == "「📻」мастерская":
         channel = bot.get_channel(int("906633755874189322"))
-        thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=4320, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
+        thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=1440, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
         await thread.send("Обратите внимание, что в данной ветке действуют такие же правила, как и на обычные каналы!")
     else:
         await bot.process_commands(message)

@@ -28,10 +28,14 @@ async def on_message(message):
         channel = bot.get_channel(int("959930633939984434"))
         thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=1440, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
         await thread.send("Обратите внимание, что в данной ветке действуют такие же правила, как и на обычные каналы!")
+        await message.add_reaction(emoji="<:santrope_bs_like:994679420054949889>")
+        await message.add_reaction(emoji="<:santrope_bs_dislike:994679418192662578>")
     elif message.channel.name == "「📻」мастерская":
         channel = bot.get_channel(int("906633755874189322"))
         thread = await channel.create_thread(name='Комментарии', message=message, auto_archive_duration=1440, type=nextcord.ChannelType.public_thread, reason="Added a thread to people can write comments")
         await thread.send("Обратите внимание, что в данной ветке действуют такие же правила, как и на обычные каналы!")
+        await message.add_reaction(emoji="<:santrope_bs_like:994679420054949889>")
+        await message.add_reaction(emoji="<:santrope_bs_dislike:994679418192662578>")
     else:
         await bot.process_commands(message)
 

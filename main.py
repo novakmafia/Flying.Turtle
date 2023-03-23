@@ -47,6 +47,7 @@ async def ку(ctx):
 async def addrole(ctx, role: nextcord.Role, member: nextcord.Member=None):
     if ctx.message.author.id == 788044062614749190:
         member = member or ctx.message.author
+        assert isinstance(role, nextcord.Role)
         await member.add_roles(role)
         await ctx.reply('+')
 

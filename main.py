@@ -60,7 +60,7 @@ async def say(ctx, *, msg=None):
         else:
             await ctx.reply("[Error]: Невозможно отправить пустоту!")
     else:
-        await ctx.reply("[Error]: У Вас отсутствует доступ администратор Discord сервера для выполнения данного действия.")
+        await ctx.reply("[Error]: У Вас отсутствует доступ администратора этого Discord сервера для выполнения данного действия.")
 
 
 @bot.command()

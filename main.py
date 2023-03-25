@@ -120,6 +120,7 @@ async def invite(interaction: nextcord.Interaction):
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.command(name='ip')
+@commands.has_permissions(administrator=True)
 async def ip(ctx, *, ip=None):
     if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
         if ip is not None:
@@ -127,7 +128,7 @@ async def ip(ctx, *, ip=None):
             data = response.json()
             if data["success"] == True:
                 embed = nextcord.Embed(
-                    description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n**Код телефона:** +{data["calling_code"]}\n**Столица:** {data["capital"]}',
+                    description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n> **Код телефона:** +{data["calling_code"]}\n> **Столица:** {data["capital"]}',
                     colour = nextcord.Colour.from_rgb(251, 206, 177)
                 )
                 embed.set_author(
@@ -135,9 +136,10 @@ async def ip(ctx, *, ip=None):
                     icon_url = image['logo']
                 )
                 embed.set_footer(
-                    text=f"・Информацию запросил: {ctx.author.name}",
+                    text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}",
                     icon_url = image['logo']
                 )
+                await ctx.message.delete()
                 await ctx.send(embed=embed)
             else:
                 await ctx.reply(f"[Error]: {data['message']}")

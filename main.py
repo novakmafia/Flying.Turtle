@@ -127,7 +127,7 @@ async def ip(ctx, *, ip=None):
             data = response.json()
             if data["success"] == True:
                 embed = nextcord.Embed(
-                    description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n>**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n**Код телефона:** +{data["calling_code"]}\n**Столица:** {data["capital"]}',
+                    description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n**Код телефона:** +{data["calling_code"]}\n**Столица:** {data["capital"]}',
                     colour = nextcord.Colour.from_rgb(251, 206, 177)
                 )
                 embed.set_author(

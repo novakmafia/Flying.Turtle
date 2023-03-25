@@ -121,27 +121,26 @@ async def invite(interaction: nextcord.Interaction):
 
 @bot.command(name='ip')
 async def ip(ctx, *, ip=None):
-    if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
-        if ip is not None:
-            response = requests.get(f'http://ipwho.is/{ip}?lang=ru')
-            data = response.json()
-            if data["success"] == True:
-                embed = nextcord.Embed(
-                    description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n> **Код телефона:** +{data["calling_code"]}\n> **Столица:** {data["capital"]}',
-                    colour = nextcord.Colour.from_rgb(251, 206, 177)
-                )
-                embed.set_author(
-                    name = '・Информация об IP:',
-                    icon_url = image['logo']
-                )
-                embed.set_footer(
-                    text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}"
-                )
-                await ctx.message.delete()
-                await ctx.send(embed=embed)
-            else:
-                await ctx.reply(f"[Error]: {data['message']}")
+    if ip is not None:
+        response = requests.get(f'http://ipwho.is/{ip}?lang=ru')
+        data = response.json()
+        if data["success"] == True:
+            embed = nextcord.Embed(
+                description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n> **Код телефона:** +{data["calling_code"]}\n> **Столица:** {data["capital"]}',
+                colour = nextcord.Colour.from_rgb(251, 206, 177)
+            )
+            embed.set_author(
+                name = '・Информация об IP:',
+                icon_url = image['logo']
+            )
+            embed.set_footer(
+                text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}"
+            )
+            await ctx.message.delete()
+            await ctx.send(embed=embed)
         else:
-            await ctx.reply("[Error]: Вы не ввели IP адрес!")
+            await ctx.reply(f"[Error]: {data['message']}")
+    else:
+        await ctx.reply("[Error]: Вы не ввели IP адрес!")
 
 bot.run(settings['token'])

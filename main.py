@@ -120,7 +120,6 @@ async def invite(interaction: nextcord.Interaction):
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.command(name='ip')
-@commands.has_permissions(administrator=True)
 async def ip(ctx, *, ip=None):
     if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
         if ip is not None:

@@ -136,8 +136,7 @@ async def ip(ctx, *, ip=None):
                     icon_url = image['logo']
                 )
                 embed.set_footer(
-                    text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}",
-                    icon_url = image['logo']
+                    text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}"
                 )
                 await ctx.message.delete()
                 await ctx.send(embed=embed)

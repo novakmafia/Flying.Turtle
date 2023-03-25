@@ -138,6 +138,7 @@ async def ip(ctx, *, ip=None):
                     text=f"・Информацию запросил: {ctx.author.name}",
                     icon_url = image['logo']
                 )
+                await ctx.send(embed=embed)
             else:
                 await ctx.reply(f"[Error]: {data['message']}")
         else:

@@ -122,11 +122,11 @@ async def invite(interaction: nextcord.Interaction):
 @bot.command(name='ip')
 async def ip(ctx, *, ip=None):
     if ip is not None:
-        response = requests.get(f'http://ipwho.is/{ip}?lang=ru')
+        response = requests.get(f'http://ip-api.com/json/{ip}?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query&lang=ru')
         data = response.json()
-        if data["success"] == True:
+        if data["status"] == "success":
             embed = nextcord.Embed(
-                description = f'> **IP:** {data["ip"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["region"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["connection"]["isp"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]["id"]} ({data["timezone"]["abbr"]})\n> **Код страны:** {data["country_code"]}\n> **Код телефона:** +{data["calling_code"]}\n> **Столица:** {data["capital"]}',
+                description = f'> **IP:** {data["query"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["regionName"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["as"]}\n> **Proxy:** {data["proxy"]} | **Mobile:** {data["mobile"]} | **Hosting:** {data["hosting"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]}\n> **Код страны:** {data["countryCode"]}\n> **Валюта:** {data["currency"]}\n> **Континент:** {data["continent"]} ({data["continentCode"]})',
                 colour = nextcord.Colour.from_rgb(251, 206, 177)
             )
             embed.set_author(

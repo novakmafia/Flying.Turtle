@@ -2,7 +2,7 @@ import os
 import main
 import time
 
-exec(open('file.py').read())
+exec(open('main.py').read())
 
 while True:
     os.system("main.py")

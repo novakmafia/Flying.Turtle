@@ -127,7 +127,6 @@ async def online(interaction: nextcord.Interaction):
         icon_url = image['p_logo']
     )
     embed.add_field(name='**SanTrope RP #1**', value=f'Онлайн: {strp1.players}/{strp1.max_players}')
-    
     embed.add_field(name='**SanTrope RP #2**', value=f'Онлайн: {strp2.players}/{strp2.max_players}')
     embed.add_field(name='**SanTrope RP #3**', value=f'Онлайн: {strp3.players}/{strp3.max_players}')
     embed.add_field(name='**SanTrope RP #4**', value=f'Онлайн: {strp4.players}/{strp4.max_players}')

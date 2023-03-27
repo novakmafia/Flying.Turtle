@@ -6,4 +6,4 @@ exec(open('main.py').read())
 
 while True:
     os.system("main.py")
-    time.sleep(30)
+    time.sleep(5)

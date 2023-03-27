@@ -7,6 +7,7 @@ from config import settings
 from config import links
 from config import image
 from select_role import SelectSTRP
+from samp_client.client import SampClient
 
 class StartBot(commands.Bot):
     def __init__(self):
@@ -97,6 +98,42 @@ async def ping(interaction: nextcord.Interaction):
 @bot.slash_command(description='Ссылка на этот сервер')
 async def link(interaction: nextcord.Interaction):
     await interaction.response.send_message(links['discord_short'])
+
+@bot.slash_command(description="Узнать онлайн проекта")
+async def online(interaction: nextcord.Interaction):
+    check1 = requests.get("http://check.santrope-rp.com/")
+    check2 = requests.get("http://80.66.71.48")
+    check3 = requests.get("http://80.66.71.49")
+
+    with SampClient(address='80.66.71.44', port=5125) as client:
+        strp1 = client.get_server_info()
+        
+    with SampClient(address='80.66.71.45', port=5125) as client:
+        strp2 = client.get_server_info()
+    with SampClient(address='80.66.71.46', port=5125) as client:
+        strp3 = client.get_server_info()
+    with SampClient(address='80.66.71.47', port=5125) as client:
+        strp4 = client.get_server_info()
+    with SampClient(address='80.66.71.48', port=5125) as client:
+        strp5 = client.get_server_info()
+    with SampClient(address='80.66.71.49', port=5125) as client:
+        strp6 = client.get_server_info()
+    
+    embed = nextcord.Embed(
+        colour = nextcord.Colour.from_rgb(251, 206, 177)
+    )
+    embed.set_author(
+        name = '・Онлайн серверов проекта:',
+        icon_url = image['p_logo']
+    )
+    embed.add_field(name='**SanTrope RP #1**', value=f'Онлайн: {strp1.players}/{strp1.max_players}')
+    
+    embed.add_field(name='**SanTrope RP #2**', value=f'Онлайн: {strp2.players}/{strp2.max_players}')
+    embed.add_field(name='**SanTrope RP #3**', value=f'Онлайн: {strp3.players}/{strp3.max_players}')
+    embed.add_field(name='**SanTrope RP #4**', value=f'Онлайн: {strp4.players}/{strp4.max_players}')
+    embed.add_field(name='**SanTrope RP #5**', value=f'Онлайн: {strp5.players}/{strp5.max_players}')
+    embed.add_field(name='**SanTrope RP #6**', value=f'Онлайн: {strp6.players}/{strp6.max_players}')
+    await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.slash_command(description="Ссылки на ресурсы проекта")
 async def invite(interaction: nextcord.Interaction):

@@ -1,8 +1,6 @@
 import os
-import main
 import time
-
-exec(open('main.py').read())
+import main
 
 while True:
     os.system("main.py")

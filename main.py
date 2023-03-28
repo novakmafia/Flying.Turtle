@@ -20,6 +20,9 @@ class StartBot(commands.Bot):
         print('------')
         self.add_view(view=SelectSTRP(), message_id=1076398513665097788)
         await bot.change_presence(status=nextcord.Status.idle, activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=settings['drp']))
+        check1 = requests.get("http://check.santrope-rp.com/")
+        check2 = requests.get("http://80.66.71.48")
+        check3 = requests.get("http://80.66.71.49")
 
 bot = StartBot()
 bot.remove_command('help')
@@ -101,24 +104,8 @@ async def link(interaction: nextcord.Interaction):
 
 @bot.slash_command(description="Узнать онлайн проекта")
 async def online(interaction: nextcord.Interaction):
-    check1 = requests.get("http://check.santrope-rp.com/")
-    check2 = requests.get("http://80.66.71.48")
-    check3 = requests.get("http://80.66.71.49")
-
-    with SampClient(address='80.66.71.44', port=5125) as client:
-        strp1 = client.get_server_info()
-        
-    with SampClient(address='80.66.71.45', port=5125) as client:
-        strp2 = client.get_server_info()
-    with SampClient(address='80.66.71.46', port=5125) as client:
-        strp3 = client.get_server_info()
-    with SampClient(address='80.66.71.47', port=5125) as client:
-        strp4 = client.get_server_info()
-    with SampClient(address='80.66.71.48', port=5125) as client:
-        strp5 = client.get_server_info()
-    with SampClient(address='80.66.71.49', port=5125) as client:
-        strp6 = client.get_server_info()
-    
+    all_players = 0
+    max_players = 0
     embed = nextcord.Embed(
         colour = nextcord.Colour.from_rgb(251, 206, 177)
     )
@@ -126,12 +113,13 @@ async def online(interaction: nextcord.Interaction):
         name = '・Онлайн серверов проекта:',
         icon_url = image['p_logo']
     )
-    embed.add_field(name='**SanTrope RP #1**', value=f'Онлайн: {strp1.players}/{strp1.max_players}')
-    embed.add_field(name='**SanTrope RP #2**', value=f'Онлайн: {strp2.players}/{strp2.max_players}')
-    embed.add_field(name='**SanTrope RP #3**', value=f'Онлайн: {strp3.players}/{strp3.max_players}')
-    embed.add_field(name='**SanTrope RP #4**', value=f'Онлайн: {strp4.players}/{strp4.max_players}')
-    embed.add_field(name='**SanTrope RP #5**', value=f'Онлайн: {strp5.players}/{strp5.max_players}')
-    embed.add_field(name='**SanTrope RP #6**', value=f'Онлайн: {strp6.players}/{strp6.max_players}')
+    for i in range(4, 10):
+        with SampClient(address=f'80.66.71.4{str(i)}', port=5125) as client:
+            info = client.get_server_info()
+        embed.add_field(name=f'**{info.hostname}**', value=f'Онлайн: {info.players}/{info.max_players}')
+        all_players += int(info.players)
+        max_players += int(info.max_players)
+    embed.set_footer(text=f'・Общий онлайн всех серверов: {all_players}/{max_players}')
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
 @bot.slash_command(description="Ссылки на ресурсы проекта")

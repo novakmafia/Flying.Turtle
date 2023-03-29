@@ -6,6 +6,8 @@ from nextcord.ext import commands
 from config import settings
 from config import links
 from config import image
+from PIL import Image
+import os
 from select_role import SelectSTRP
 from samp_client.client import SampClient
 
@@ -16,13 +18,13 @@ class StartBot(commands.Bot):
         super().__init__(command_prefix=commands.when_mentioned_or(settings['prefix']), intents=intents)
 
     async def on_ready(self):
+        h1 = requests.head(url='http://check.santrope-rp.com')
+        h2 = requests.head(url='http://80.66.71.48')
+        h3 = requests.head(url='http://80.66.71.49')
+        self.add_view(view=SelectSTRP(), message_id=1076398513665097788)
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
-        self.add_view(view=SelectSTRP(), message_id=1076398513665097788)
-        await bot.change_presence(status=nextcord.Status.idle, activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=settings['drp']))
-        check1 = requests.get("http://check.santrope-rp.com/")
-        check2 = requests.get("http://80.66.71.48")
-        check3 = requests.get("http://80.66.71.49")
+        await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=settings['drp']), status=nextcord.Status.idle)
 
 bot = StartBot()
 bot.remove_command('help')
@@ -59,9 +61,15 @@ async def addrole(ctx, role: nextcord.Role, member: nextcord.Member=None):
 @bot.command(name='say')
 async def say(ctx, *, msg=None):
     if ctx.message.author.guild_permissions.administrator or ctx.message.author.id == 788044062614749190:
-        if msg is not None:
+        if msg is not None or len(ctx.message.attachments) > 0:
             await ctx.message.delete()
-            await ctx.send(msg)
+            if len(ctx.message.attachments) > 0:
+                img = Image.open(requests.get(ctx.message.attachments[0].url, stream=True).raw)
+                img.save('example.png')
+                await ctx.send(msg, file=nextcord.File('example.png'))
+                os.remove('example.png')
+            else:
+                await ctx.send(msg)
         else:
             await ctx.reply("[Error]: Невозможно отправить пустоту!")
     else:

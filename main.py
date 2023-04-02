@@ -6,6 +6,7 @@ from nextcord.ext import commands
 from config import settings
 from config import links
 from config import image
+from config import urls
 from PIL import Image
 import os
 from select_role import SelectSTRP
@@ -18,13 +19,11 @@ class StartBot(commands.Bot):
         super().__init__(command_prefix=commands.when_mentioned_or(settings['prefix']), intents=intents)
 
     async def on_ready(self):
-        h1 = requests.head(url='http://check.santrope-rp.com')
-        h2 = requests.head(url='http://80.66.71.48')
-        h3 = requests.head(url='http://80.66.71.49')
-        self.add_view(view=SelectSTRP(), message_id=1076398513665097788)
+        self.add_view(view=SelectSTRP(), message_id=1091673666800062525)
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         print('------')
-        await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=settings['drp']), status=nextcord.Status.idle)
+        # await bot.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.watching, name=settings['drp']), status=nextcord.Status.idle)
+        await bot.change_presence(activity=nextcord.Game(name="Элеонору"), status=nextcord.Status.idle)
 
 bot = StartBot()
 bot.remove_command('help')
@@ -112,23 +111,42 @@ async def link(interaction: nextcord.Interaction):
 
 @bot.slash_command(description="Узнать онлайн проекта")
 async def online(interaction: nextcord.Interaction):
-    all_players = 0
-    max_players = 0
-    embed = nextcord.Embed(
-        colour = nextcord.Colour.from_rgb(251, 206, 177)
-    )
-    embed.set_author(
-        name = '・Онлайн серверов проекта:',
-        icon_url = image['p_logo']
-    )
-    for i in range(4, 10):
-        with SampClient(address=f'80.66.71.4{str(i)}', port=5125) as client:
-            info = client.get_server_info()
-        embed.add_field(name=f'**{info.hostname}**', value=f'Онлайн: {info.players}/{info.max_players}')
-        all_players += int(info.players)
-        max_players += int(info.max_players)
-    embed.set_footer(text=f'・Общий онлайн всех серверов: {all_players}/{max_players}')
-    await interaction.response.send_message(embed=embed, ephemeral=True)
+    try:
+        all_players = 0
+        max_players = 0
+        embed = nextcord.Embed(
+            colour = nextcord.Colour.from_rgb(251, 206, 177)
+        )
+        embed.set_author(
+            name = '・Онлайн серверов проекта:',
+            icon_url = image['p_logo']
+        )
+        for i in range(4, 10):
+            with SampClient(address=f'80.66.71.4{str(i)}', port=5125) as client:
+                info = client.get_server_info()
+            embed.add_field(name=f'**{info.hostname}**', value=f'Онлайн: {info.players}/{info.max_players}')
+            all_players += int(info.players)
+            max_players += int(info.max_players)
+        embed.set_footer(text=f'・Общий онлайн всех серверов: {all_players}/{max_players}')
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+    except Exception:
+        embed = nextcord.Embed(
+            colour = nextcord.Colour.from_rgb(251, 206, 177),
+            description='Бот не может получить информацию об онлайне, возможно давно не проходили чекеры!\nДля прохождения чекеров введите команду -  `/checkers`'
+        )
+        embed.set_author(
+            name = '・Ошибка получения информации:',
+            icon_url = image['p_logo']
+        )
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+@bot.slash_command(description="Пройти чекеры для проверки онлайна")
+async def checkers(interaction: nextcord.Interaction):
+    sess = requests.Session()
+    for i in range(1, 7):
+        for j in range(4):
+            sess.get(urls[f's0{str(i)}'])
+    await interaction.response.send_message('Чекеры успешно пройдены!', ephemeral=True)
 
 @bot.slash_command(description="Ссылки на ресурсы проекта")
 async def invite(interaction: nextcord.Interaction):
@@ -153,26 +171,27 @@ async def invite(interaction: nextcord.Interaction):
 
 @bot.command(name='ip')
 async def ip(ctx, *, ip=None):
-    if ip is not None:
-        response = requests.get(f'http://ip-api.com/json/{ip}?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query&lang=ru')
-        data = response.json()
-        if data["status"] == "success":
-            embed = nextcord.Embed(
-                description = f'> **IP:** {data["query"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["regionName"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["as"]}\n> **Proxy:** {data["proxy"]} | **Mobile:** {data["mobile"]} | **Hosting:** {data["hosting"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]}\n> **Код страны:** {data["countryCode"]}\n> **Валюта:** {data["currency"]}\n> **Континент:** {data["continent"]} ({data["continentCode"]})',
-                colour = nextcord.Colour.from_rgb(251, 206, 177)
-            )
-            embed.set_author(
-                name = '・Информация об IP:',
-                icon_url = image['logo']
-            )
-            embed.set_footer(
-                text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}"
-            )
-            await ctx.message.delete()
-            await ctx.send(embed=embed)
+    if ctx.channel.id == 873617204120264734:
+        if ip is not None:
+            response = requests.get(f'http://ip-api.com/json/{ip}?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query&lang=ru')
+            data = response.json()
+            if data["status"] == "success":
+                embed = nextcord.Embed(
+                    description = f'> **IP:** {data["query"]}\n> **Город:** {data["city"]}\n> **Регион:** {data["regionName"]}\n> **Страна:** {data["country"]}\n> **Провайдер:** {data["as"]}\n> **Proxy:** {data["proxy"]} | **Mobile:** {data["mobile"]} | **Hosting:** {data["hosting"]}\n**`Прочая информация:`**\n> **Временная зона:** {data["timezone"]}\n> **Код страны:** {data["countryCode"]}\n> **Валюта:** {data["currency"]}\n> **Континент:** {data["continent"]} ({data["continentCode"]})',
+                    colour = nextcord.Colour.from_rgb(251, 206, 177)
+                )
+                embed.set_author(
+                    name = '・Информация об IP:',
+                    icon_url = image['logo']
+                )
+                embed.set_footer(
+                    text=f"・Информацию запросил: {ctx.author.name}#{ctx.author.discriminator}"
+                )
+                await ctx.message.delete()
+                await ctx.send(embed=embed)
+            else:
+                await ctx.reply(f"[Error]: {data['message']}")
         else:
-            await ctx.reply(f"[Error]: {data['message']}")
-    else:
-        await ctx.reply("[Error]: Вы не ввели IP адрес!")
+            await ctx.reply("[Error]: Вы не ввели IP адрес!")
 
 bot.run(settings['token'])
